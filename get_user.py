@@ -318,11 +318,25 @@ class GetUser(threading.Thread):
             # browse_num = int(BS.find_all("span", class_="zg-gray-normal")[6].find("strong").get_text())
             browse_num = 0  # 知乎个人首页改版，这里暂时没有数据可以抓了
             trade = user_info['business']['name'] if 'business' in user_info else ''
+
             company = user_info['employments'][0]['company']['name'] if len(user_info['employments']) > 0 and 'company' in user_info['employments'][0]  else ''
             school = user_info['educations'][0]['school']['name'] if len(user_info['educations']) > 0 and 'school' in user_info['educations'][0]  else ''
             major = user_info['educations'][0]['major']['name'] if len(user_info['educations']) > 0 and 'major' in user_info['educations'][0] else ''
             job = user_info['employments'][0]['job']['name'] if len(user_info['employments']) > 0 and 'job' in user_info['employments'][0] else ''
             location = user_info['locations'][0]['name'] if len(user_info['locations']) > 0 else ''
+
+            company2 = user_info['employments'][1]['company']['name'] if len(user_info['employments']) > 1 and 'company' in user_info['employments'][1]  else ''
+            school2 = user_info['educations'][1]['school']['name'] if len(user_info['educations']) > 1 and 'school' in user_info['educations'][1]  else ''
+            major2 = user_info['educations'][1]['major']['name'] if len(user_info['educations']) > 1 and 'major' in user_info['educations'][1] else ''
+            job2 = user_info['employments'][1]['job']['name'] if len(user_info['employments']) > 1 and 'job' in user_info['employments'][1] else ''
+            location2 = user_info['locations'][1]['name'] if len(user_info['locations']) > 1 else ''
+
+            company3 = user_info['employments'][2]['company']['name'] if len(user_info['employments']) > 2 and 'company' in user_info['employments'][2]  else ''
+            school3 = user_info['educations'][2]['school']['name'] if len(user_info['educations']) > 2 and 'school' in user_info['educations'][2]  else ''
+            major3 = user_info['educations'][2]['major']['name'] if len(user_info['educations']) > 2 and 'major' in user_info['educations'][2] else ''
+            job3 = user_info['employments'][2]['job']['name'] if len(user_info['employments']) > 2 and 'job' in user_info['employments'][2] else ''
+            location3 = user_info['locations'][2]['name'] if len(user_info['locations']) > 2 else ''
+
             description = user_info['description'] if 'description' in user_info else ''
             ask_num = int(user_info['question_count'])
             answer_num = int(user_info['answer_count'])
@@ -332,19 +346,26 @@ class GetUser(threading.Thread):
 
             replace_data = \
                 (pymysql.escape_string(name_url), nickname, self_domain, user_type,
-                 gender, follower_num, following_num, agree_num, appreciate_num, star_num, share_num, browse_num,
-                 trade, company, school, major, job, location, pymysql.escape_string(description),
+                 gender, follower_num, following_num, agree_num, appreciate_num, star_num, share_num, browse_num, trade,
+                 company, school, major, job, location,
+                 company2, school2, major2, job2, location2,
+                 company3, school3, major3, job3, location3,
+                 pymysql.escape_string(description),
                  ask_num, answer_num, article_num, collect_num, public_edit_num)
 
             replace_sql = '''REPLACE INTO
                           user(url,nickname,self_domain,user_type,
-                          gender, follower,following,agree_num,appreciate_num,star_num,share_num,browse_num,
-                          trade,company,school,major,job,location,description,
-                          ask_num,answer_num,article_num,collect_num,public_edit_num)
+                          gender, follower,following,agree_num,appreciate_num,star_num,share_num,browse_num,trade,
+                          company,school,major,job,location,
+                          company2,school2,major2,job2,location2,
+                          company3,school3,major3,job3,location3,
+                          description,ask_num,answer_num,article_num,collect_num,public_edit_num)
                           VALUES(%s,%s,%s,%s,
-                          %s,%s,%s,%s,%s,%s,%s,%s,
-                          %s,%s,%s,%s,%s,%s,%s,
-                          %s,%s,%s,%s,%s)'''
+                          %s,%s,%s,%s,%s,%s,%s,%s,%s,
+                          %s,%s,%s,%s,%s,
+                          %s,%s,%s,%s,%s,
+                          %s,%s,%s,%s,%s,
+                          %s,%s,%s,%s,%s,%s)'''
 
             try:
                 print("获取到数据：")
