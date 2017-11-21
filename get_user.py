@@ -375,7 +375,7 @@ class GetUser(threading.Thread):
             except Exception as err:
                 print("插入数据库出错")
                 print("获取到数据：")
-                print(replace_data)
+                #print(replace_data)
                 print("插入语句：" + self.db_cursor._last_executed)
                 self.db.rollback()
                 print(err)
